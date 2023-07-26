@@ -42,7 +42,7 @@ def scrape(prNum):
             if(iter.text.startswith(' I\'ve')):
                 break
             realDesc += iter.text
-        print("Originial Description:-\n")
+        print("Original Description:-\n")
         print(realDesc)
         print("----")
 
@@ -68,7 +68,7 @@ def scrape(prNum):
 
         if(len(diff)<20000):
             data = {
-                "message": "In fifty words, give the tldr of the changes made in the code depicted in the output of '\''git diff '\'' command in the form of a pull request description. Do not state or list the files that were added, changed and deleted, instead explain how these changes affect the functionality of the product. The output of '\''git diff'\'' command is:%s and the list of commit messages are:%s"%(diff,commitMessages),
+                "message": "Summarise these changes made while working in the current git branch to generate a pull request description based on the committed changes.  Do not state or list the files that were added, changed and deleted, instead explain how these changes affect the functionality of the product. Write the output in bullet points instead of a paragraph, with each point starting on a new line. The output of '\''git diff'\'' command is:%s and the list of commit messages are:%s"%(diff,commitMessages),
                 "provider": "azureopenai",
                 "context": " ",
                 "examples": [
@@ -108,7 +108,7 @@ def scrape(prNum):
             combinedDescription = ""
             for i in range(0,(len(diff)//20000)+1,1):
                 data = {
-                    "message": "In fifty words, give the tldr of the changes made in the code depicted in the output of '\''git diff '\'' command in the form of a pull request description. Do not state or list the files that were added, changed and deleted, instead explain how these changes affect the functionality of the product. The output of '\''git diff'\'' command is:%s and the list of commit messages are:%s"%(diff[20000*i:min(20000*(i+1),len(diff))],commitMessages),
+                    "message": "Summarise these changes made while working in the current git branch to generate a pull request description based on the committed changes.  Do not state or list the files that were added, changed and deleted, instead explain how these changes affect the functionality of the product. The output of '\''git diff'\'' command is:%s and the list of commit messages are:%s"%(diff[20000*i:min(20000*(i+1),len(diff))],commitMessages),
                     "provider": "azureopenai",
                     "context": " ",
                     "examples": [
@@ -132,7 +132,7 @@ def scrape(prNum):
                 if(prDescription != "Server Erro"):
                     combinedDescription = combinedDescription + prDescription
             data = {
-                "message": "Use this following paragraph to write a pull request description, explaining how these changes affect the functionality of the product.:%s"%combinedDescription,
+                "message": "Use this following paragraph to write a pull request description, explaining how these changes affect the functionality of the product. Write the output in bullet points instead of a paragraph, with each point starting on a new line.:%s"%combinedDescription,
                 "context": " ",
                 "examples": [
                     {
